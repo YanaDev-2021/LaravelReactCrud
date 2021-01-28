@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\API\TaskController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\ProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,9 +20,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 */
-Route::get('tasks', 'App\Http\Controllers\TaskController@index');
-Route::post('task', 'App\Http\Controllers\TaskController@store');
-Route::put('task/{id}', 'App\Http\Controllers\TaskController@update');
-Route::delete('task/{id}', 'App\Http\Controllers\TaskController@delete');
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [RegisterController::class, 'login']);
 
+
+Route::middleware('auth:api')->group( function () {
+    Route::get('tasks', [TaskController::class, 'index']);
+    Route::post('task', [TaskController::class, 'store']);
+    Route::put('task/{id}', [TaskController::class, 'update']);
+    Route::delete('task/{id}', [TaskController::class, 'delete']);
+
+});
 
