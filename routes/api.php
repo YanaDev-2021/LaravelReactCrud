@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\TaskController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\ApiAuthController;
 use App\Http\Controllers\API\ProductController;
 /*
 |--------------------------------------------------------------------------
@@ -20,15 +20,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 */
-Route::post('register', [RegisterController::class, 'register']);
-Route::post('login', [RegisterController::class, 'login']);
+Route::post('register', [ApiAuthController::class, 'register']);
+Route::post('login', [ApiAuthController::class, 'login']);
+Route::get('logout', [ApiAuthController::class, 'logout'])->middleware('auth:api');
 
 
 Route::middleware('auth:api')->group( function () {
+    Route::get('/dashboard', function () {
+        return view('welcome');
+    });
     Route::get('tasks', [TaskController::class, 'index']);
     Route::post('task', [TaskController::class, 'store']);
     Route::put('task/{id}', [TaskController::class, 'update']);
     Route::delete('task/{id}', [TaskController::class, 'delete']);
-
 });
 
