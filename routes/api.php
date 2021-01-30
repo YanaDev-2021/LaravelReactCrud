@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 Route::post('register', [ApiAuthController::class, 'register']);
 Route::post('login', [ApiAuthController::class, 'login']);
-Route::get('logout', [ApiAuthController::class, 'logout'])->middleware('auth:api');
+
 
 
 Route::middleware('auth:api')->group( function () {
@@ -33,5 +33,6 @@ Route::middleware('auth:api')->group( function () {
     Route::post('task', [TaskController::class, 'store']);
     Route::put('task/{id}', [TaskController::class, 'update']);
     Route::delete('task/{id}', [TaskController::class, 'delete']);
+    Route::get('logout', [ApiAuthController::class, 'logout']);
 });
 

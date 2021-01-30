@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>React TodoList</title>
         <script>
-            //localStorage.removeItem('token')
             console.log(localStorage.getItem("token"))
             if(localStorage.getItem("token") == "" || localStorage.getItem("token") == null) {
                 window.open('http://127.0.0.1:8000/','_self')

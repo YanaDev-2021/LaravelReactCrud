@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label} from 'reactstrap';
 import axios from 'axios';
+import './app.css';
 
 export default class Example extends Component {
 
@@ -24,15 +25,31 @@ export default class Example extends Component {
     }
 
     loadTask(){
-        axios.get('http://127.0.0.1:8000/api/tasks').then((response) => {
+        const token = localStorage.getItem("token");
+        
+        axios.get('http://127.0.0.1:8000/api/tasks', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((res) => {
             this.setState({
-                tasks:response.data
+                tasks:res.data
             })
         })
+        .catch((error) => {
+        console.error(error)
+        });        
     }
 
     addTask(){
-        axios.post('http://127.0.0.1:8000/api/task', this.state.newTaskData).then((response) => {
+            const token = localStorage.getItem("token");
+            axios.post('http://127.0.0.1:8000/api/task', this.state.newTaskData, {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            }
+        }).then((res) => {
             let { tasks } = this.state
             this.loadTask()
 
@@ -44,8 +61,7 @@ export default class Example extends Component {
                     description: ""
                 }
             })
-            
-        })
+        })    
     }
 
     editTask(id, name, description){
@@ -61,28 +77,59 @@ export default class Example extends Component {
 
     updateTask(){
         let { name, description} = this.state.editTaskData
-
+        const token = localStorage.getItem("token");    
         axios.put('http://127.0.0.1:8000/api/task/'+this.state.editTaskData.id, {
             name,
             description
-        }).then((response) => {
-            this.loadTask()
-
-            this.setState({
-                editTaskModal:false,
-                editTaskData:{
-                    id: "",
-                    name: "",
-                    description: ""
-                }
-            })
-        })
+        }, {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            }
+        }).then((res) => {
+                this.loadTask()
+    
+                this.setState({
+                    editTaskModal:false,
+                    editTaskData:{
+                        id: "",
+                        name: "",
+                        description: ""
+                    }
+                })
+            })    
     }
 
     deleteTask(id){
-        axios.delete('http://127.0.0.1:8000/api/task/'+id).then((response)=>{
+        const token = localStorage.getItem("token");
+        axios.delete('http://127.0.0.1:8000/api/task/'+id, {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((res) => {
             this.loadTask()
         })
+        .catch((error) => {
+        console.error(error)
+        });   
+    }
+
+    signOut(){  
+        const token = localStorage.getItem("token");
+        axios.get('http://127.0.0.1:8000/api/logout', {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        ).then((res) => { 
+            localStorage.removeItem('token')      
+            window.location.replace('http://127.0.0.1:8000/');
+        })
+        .catch((error) => {
+        console.error(error)
+        });   
     }
 
     componentWillMount(){
@@ -125,7 +172,8 @@ export default class Example extends Component {
 
         return (
             <div className="container">
-                <h1>TodoList</h1>
+                <h1 className="header">TodoList</h1>
+                <p className="signout"><input type="button" value="Sign Out" onClick={this.signOut.bind(this)}/></p>
                 <Button color="primary" onClick={this.toggleNewTaskModal.bind(this)} className="my-2">Add Task</Button>
                 <Modal isOpen={this.state.newTaskModal} toggle={this.toggleNewTaskModal.bind(this)}>
                     <ModalHeader toggle={this.toggleNewTaskModal.bind(this)}>Add New Task</ModalHeader>

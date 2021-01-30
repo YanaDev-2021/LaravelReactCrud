@@ -28,11 +28,10 @@ export default class Login extends Component {
     try {
     axios.post('http://127.0.0.1:8000/api/login', this.state).then((response) => {
     localStorage.setItem('token', response.data.data.token)
-    //console.log(localStorage.getItem("token"))
+    console.log(localStorage.getItem("token"))
     window.open("http://127.0.0.1:8000/dashboard","_self")
-    //location.reload('http://127.0.0.1:8000/api/dashboard')
     })
-     // this.props.userHasAuthenticated(true)
+    
     } catch (e) {
       alert(e.message)
       console.log(e)
@@ -85,7 +84,7 @@ export default class Login extends Component {
             type="submit" 
             className="btn btn-primary btn-block" 
             style={{ textAlign: 'center' }}
-            >Login</button>
+            >Sign In</button>
           </div>
         </form>
       </div>
