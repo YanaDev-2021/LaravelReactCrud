@@ -172,8 +172,8 @@ export default class Example extends Component {
 
         return (
             <div className="container">
-                <h1 className="header">TodoList</h1>
                 <p className="signout"><input type="button" value="Sign Out" onClick={this.signOut.bind(this)}/></p>
+                <h1 className="header">TodoList</h1>
                 <Button color="primary" onClick={this.toggleNewTaskModal.bind(this)} className="my-2">Add Task</Button>
                 <Modal isOpen={this.state.newTaskModal} toggle={this.toggleNewTaskModal.bind(this)}>
                     <ModalHeader toggle={this.toggleNewTaskModal.bind(this)}>Add New Task</ModalHeader>

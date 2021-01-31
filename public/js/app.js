@@ -2426,16 +2426,16 @@ var Example = /*#__PURE__*/function (_Component) {
       });
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
-          className: "header",
-          children: "TodoList"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
           className: "signout",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
             type: "button",
             value: "Sign Out",
             onClick: this.signOut.bind(this)
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+          className: "header",
+          children: "TodoList"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_5__.default, {
           color: "primary",
           onClick: this.toggleNewTaskModal.bind(this),
@@ -8214,7 +8214,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media all and (min-width: 480px) {\r\n    .Login {\r\n      padding: 60px 0;\r\n    }\r\n    .Login form {\r\n      margin: 0 auto;\r\n      max-width: 320px;\r\n    }\r\n    .header {\r\n      position: fixed;\r\n    }\r\n    .signout {\r\n      text-align: right;\r\n      margin-top: 10px;\r\n    }\r\n  }", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media all and (min-width: 480px) {\r\n    .Login {\r\n      padding: 60px 0;\r\n    }\r\n    .Login form {\r\n      margin: 0 auto;\r\n      max-width: 320px;\r\n    }\r\n    .header {\r\n      /* position: fixed; */\r\n    }\r\n    .signout {\r\n      text-align: right;\r\n      margin-top: 10px;\r\n    }\r\n  }", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
