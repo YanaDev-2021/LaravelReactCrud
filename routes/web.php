@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +19,5 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('welcome');
 });
+
+Route::get('/send/message', 'App\Http\Controllers\SmsController@sendMessage');
