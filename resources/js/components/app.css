@@ -13,4 +13,11 @@
       text-align: right;
       margin-top: 10px;
     }
+    /* Style the search box inside the navigation bar */
+    .topnav {
+      float: right;
+      padding: 6px;
+      margin-top: 8px;
+      font-size: 17px;
+    }
   }

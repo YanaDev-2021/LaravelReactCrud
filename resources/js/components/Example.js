@@ -10,6 +10,7 @@ export default class Example extends Component {
         super()
         this.state = {
             tasks: [],
+            search: '',
             newTaskModal: false,
             newTaskData: {
                 name: "",
@@ -40,6 +41,25 @@ export default class Example extends Component {
         .catch((error) => {
         console.error(error)
         });        
+    }
+
+    loadSearchTask(search){
+        console.log(search)
+        const token = localStorage.getItem("token");
+        
+        axios.get('http://127.0.0.1:8000/api/tasks/'+ search, {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((res) => {
+            this.setState({
+                tasks:res.data
+            })
+        })
+        .catch((error) => {
+        console.error(error)
+        });   
     }
 
     addTask(){
@@ -174,7 +194,22 @@ export default class Example extends Component {
             <div className="container">
                 <p className="signout"><input type="button" value="Sign Out" onClick={this.signOut.bind(this)}/></p>
                 <h1 className="header">TodoList</h1>
-                <Button color="primary" onClick={this.toggleNewTaskModal.bind(this)} className="my-2">Add Task</Button>
+                    <Button color="primary" onClick={this.toggleNewTaskModal.bind(this)} className="my-2">Add Task</Button>
+                    <label className="topnav" htmlFor="search-input">
+                        <input
+                            type="text"
+                            name="search"
+                            id="search-input"
+                            placeholder="Search..."
+                            onChange={(e) => {
+                                let { search } = this.state
+                                search = e.target.value
+                                this.setState({search})
+                                this.loadSearchTask(search)
+                            }}
+                        />
+                        <i className="fa fa-search search-icon" aria-hidden="true"/>
+                    </label>
                 <Modal isOpen={this.state.newTaskModal} toggle={this.toggleNewTaskModal.bind(this)}>
                     <ModalHeader toggle={this.toggleNewTaskModal.bind(this)}>Add New Task</ModalHeader>
                     <ModalBody>

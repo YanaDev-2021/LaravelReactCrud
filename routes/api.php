@@ -29,6 +29,7 @@ Route::middleware('auth:api')->group( function () {
     Route::get('/dashboard', function () {
         return view('welcome');
     });
+    Route::get('/tasks/{name}', [TaskController::class, 'search']);
     Route::get('tasks', [TaskController::class, 'index']);
     Route::post('task', [TaskController::class, 'store']);
     Route::put('task/{id}', [TaskController::class, 'update']);

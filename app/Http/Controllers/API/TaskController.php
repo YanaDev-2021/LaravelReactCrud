@@ -8,8 +8,12 @@ use App\Http\Controllers\Controller as Controller;
 
 class TaskController extends Controller
 {
-    public function index(){
+    public function index(Request $request){     
         return Task::all();
+    }
+
+    public function search($search){
+        return Task::where('name', $search)->get();
     }
 
     public function store(Request $request){

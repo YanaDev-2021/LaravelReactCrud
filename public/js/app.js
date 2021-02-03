@@ -2242,6 +2242,7 @@ var Example = /*#__PURE__*/function (_Component) {
     _this = _super.call(this);
     _this.state = {
       tasks: [],
+      search: '',
       newTaskModal: false,
       newTaskData: {
         name: "",
@@ -2276,9 +2277,29 @@ var Example = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "loadSearchTask",
+    value: function loadSearchTask(search) {
+      var _this3 = this;
+
+      console.log(search);
+      var token = localStorage.getItem("token");
+      axios__WEBPACK_IMPORTED_MODULE_3___default().get('http://127.0.0.1:8000/api/tasks/' + search, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        _this3.setState({
+          tasks: res.data
+        });
+      })["catch"](function (error) {
+        console.error(error);
+      });
+    }
+  }, {
     key: "addTask",
     value: function addTask() {
-      var _this3 = this;
+      var _this4 = this;
 
       var token = localStorage.getItem("token");
       axios__WEBPACK_IMPORTED_MODULE_3___default().post('http://127.0.0.1:8000/api/task', this.state.newTaskData, {
@@ -2287,11 +2308,11 @@ var Example = /*#__PURE__*/function (_Component) {
           'Authorization': "Bearer ".concat(token)
         }
       }).then(function (res) {
-        var tasks = _this3.state.tasks;
+        var tasks = _this4.state.tasks;
 
-        _this3.loadTask();
+        _this4.loadTask();
 
-        _this3.setState({
+        _this4.setState({
           tasks: tasks,
           newTaskModal: false,
           newTaskData: {
@@ -2316,7 +2337,7 @@ var Example = /*#__PURE__*/function (_Component) {
   }, {
     key: "updateTask",
     value: function updateTask() {
-      var _this4 = this;
+      var _this5 = this;
 
       var _this$state$editTaskD = this.state.editTaskData,
           name = _this$state$editTaskD.name,
@@ -2331,9 +2352,9 @@ var Example = /*#__PURE__*/function (_Component) {
           'Authorization': "Bearer ".concat(token)
         }
       }).then(function (res) {
-        _this4.loadTask();
+        _this5.loadTask();
 
-        _this4.setState({
+        _this5.setState({
           editTaskModal: false,
           editTaskData: {
             id: "",
@@ -2346,7 +2367,7 @@ var Example = /*#__PURE__*/function (_Component) {
   }, {
     key: "deleteTask",
     value: function deleteTask(id) {
-      var _this5 = this;
+      var _this6 = this;
 
       var token = localStorage.getItem("token");
       axios__WEBPACK_IMPORTED_MODULE_3___default().delete('http://127.0.0.1:8000/api/task/' + id, {
@@ -2355,7 +2376,7 @@ var Example = /*#__PURE__*/function (_Component) {
           'Authorization': "Bearer ".concat(token)
         }
       }).then(function (res) {
-        _this5.loadTask();
+        _this6.loadTask();
       })["catch"](function (error) {
         console.error(error);
       });
@@ -2398,7 +2419,7 @@ var Example = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this7 = this;
 
       var tasks = this.state.tasks.map(function (task) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
@@ -2413,12 +2434,12 @@ var Example = /*#__PURE__*/function (_Component) {
               color: "success",
               size: "sm",
               className: "mr-2",
-              onClick: _this6.editTask.bind(_this6, task.id, task.name, task.description),
+              onClick: _this7.editTask.bind(_this7, task.id, task.name, task.description),
               children: "Edit"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_5__.default, {
               color: "danger",
               size: "sm",
-              onClick: _this6.deleteTask.bind(_this6, task.id),
+              onClick: _this7.deleteTask.bind(_this7, task.id),
               children: "Delete"
             })]
           })]
@@ -2441,6 +2462,28 @@ var Example = /*#__PURE__*/function (_Component) {
           onClick: this.toggleNewTaskModal.bind(this),
           className: "my-2",
           children: "Add Task"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("label", {
+          className: "topnav",
+          htmlFor: "search-input",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+            type: "text",
+            name: "search",
+            id: "search-input",
+            placeholder: "Search...",
+            onChange: function onChange(e) {
+              var search = _this7.state.search;
+              search = e.target.value;
+
+              _this7.setState({
+                search: search
+              });
+
+              _this7.loadSearchTask(search);
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+            className: "fa fa-search search-icon",
+            "aria-hidden": "true"
+          })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_6__.default, {
           isOpen: this.state.newTaskModal,
           toggle: this.toggleNewTaskModal.bind(this),
@@ -2456,10 +2499,10 @@ var Example = /*#__PURE__*/function (_Component) {
                 id: "name",
                 value: this.state.newTaskData.name,
                 onChange: function onChange(e) {
-                  var newTaskData = _this6.state.newTaskData;
+                  var newTaskData = _this7.state.newTaskData;
                   newTaskData.name = e.target.value;
 
-                  _this6.setState({
+                  _this7.setState({
                     newTaskData: newTaskData
                   });
                 }
@@ -2472,10 +2515,10 @@ var Example = /*#__PURE__*/function (_Component) {
                 id: "description",
                 value: this.state.newTaskData.description,
                 onChange: function onChange(e) {
-                  var newTaskData = _this6.state.newTaskData;
+                  var newTaskData = _this7.state.newTaskData;
                   newTaskData.description = e.target.value;
 
-                  _this6.setState({
+                  _this7.setState({
                     newTaskData: newTaskData
                   });
                 }
@@ -2507,10 +2550,10 @@ var Example = /*#__PURE__*/function (_Component) {
                 id: "name",
                 value: this.state.editTaskData.name,
                 onChange: function onChange(e) {
-                  var editTaskData = _this6.state.editTaskData;
+                  var editTaskData = _this7.state.editTaskData;
                   editTaskData.name = e.target.value;
 
-                  _this6.setState({
+                  _this7.setState({
                     editTaskData: editTaskData
                   });
                 }
@@ -2523,10 +2566,10 @@ var Example = /*#__PURE__*/function (_Component) {
                 id: "description",
                 value: this.state.editTaskData.description,
                 onChange: function onChange(e) {
-                  var editTaskData = _this6.state.editTaskData;
+                  var editTaskData = _this7.state.editTaskData;
                   editTaskData.description = e.target.value;
 
-                  _this6.setState({
+                  _this7.setState({
                     editTaskData: editTaskData
                   });
                 }
@@ -8214,7 +8257,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media all and (min-width: 480px) {\r\n    .Login {\r\n      padding: 60px 0;\r\n    }\r\n    .Login form {\r\n      margin: 0 auto;\r\n      max-width: 320px;\r\n    }\r\n    .header {\r\n      /* position: fixed; */\r\n    }\r\n    .signout {\r\n      text-align: right;\r\n      margin-top: 10px;\r\n    }\r\n  }", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media all and (min-width: 480px) {\r\n    .Login {\r\n      padding: 60px 0;\r\n    }\r\n    .Login form {\r\n      margin: 0 auto;\r\n      max-width: 320px;\r\n    }\r\n    .header {\r\n      /* position: fixed; */\r\n    }\r\n    .signout {\r\n      text-align: right;\r\n      margin-top: 10px;\r\n    }\r\n    /* Style the search box inside the navigation bar */\r\n    .topnav {\r\n      float: right;\r\n      padding: 6px;\r\n      margin-top: 8px;\r\n      font-size: 17px;\r\n    }\r\n  }", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
