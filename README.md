@@ -10,4 +10,6 @@ steps to run the application
 - composer install
 - create .env file
 - generate application key
-- passport install (if passport authentication)
+- passport install
+- npm run watch
+- php artisan serve
